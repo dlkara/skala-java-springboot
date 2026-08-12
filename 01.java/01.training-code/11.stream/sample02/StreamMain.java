@@ -8,6 +8,12 @@ public class StreamMain {
                 .map(n ->  n * 2)
                 .filter(n -> n > 5)
                 .forEach(n -> System.out.printf("## forEach: %d %n%n", n));
+
+        // my answer
+        numbers.stream()
+               .map(n -> n * 2)
+               .filter(n -> n > 5)
+               .forEach(System.out::println);
     }
     
 }

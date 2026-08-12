@@ -13,11 +13,34 @@ public class AddableDemo {
     public static void main(String[] args) {
         // 문자열 결합
         addGeneric((s1, s2) -> s1 + s2, "Hello, ", "World!");
+        // addGeneric(     // 익명 클래스 사용
+        //     new IAddable<String>() {
+        //         @Override
+        //         public String add(String s1, String s2) {
+        //             return s1 + s2;
+        //         }
+        //     }, "Hello, ", "World!");
 
         // 정수 덧셈
         addGeneric((i1, i2) -> i1 + i2, 10, 20);
+        // addGeneric(     // 익명 클래스 사용
+            // new IAddable<Integer>() {
+            //     @Override
+            //     public Integer add(Integer i1, Integer i2) {
+            //         return i1 + i2;
+            //     }
+            // }
+            // , 10, 20);
 
         // Double 타입도 가능 (예시: 곱셈)
         addGeneric((d1, d2) -> d1 * d2, 3.5, 2.0);
+        // addGeneric(     // 익명 클래스 사용
+        //     new IAddable<Double>() {
+        //         @Override
+        //         public Double add(Double d1, Double d2) {
+        //             return d1 * d2;
+        //         }
+        //     }
+        //     , 3.5, 2.0);
     }
 }
