@@ -25,7 +25,7 @@ public class OptionalExample {
         printName(email2);                                       // "결과: 이름 없음"
 
         // null 가능성을 가진 변수
-        String nullableName = "HONGGILDONG"; // null 가능성을 가진 변수
+        String nullableName = null; // null 가능성을 가진 변수
         Optional<String> name3 = Optional.ofNullable(nullableName);
         emailCheck(name3);                                       // '@' 가 없으므로 발송 안 됨
         printName(name3);                                        // "결과: HONGGILDONG"
