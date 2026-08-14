@@ -1,12 +1,12 @@
 package com.sk.skala.myapp.controller;
 
-import com.sk.skala.myapp.repository.UserRepository;
 import java.util.List;
 // import java.util.ArrayList;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sk.skala.myapp.aspect.Metrics;
 import com.sk.skala.myapp.domain.User;
 import com.sk.skala.myapp.service.UserService;
 
@@ -14,20 +14,21 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import lombok.extern.slf4j.Slf4j;
 
+
+@Slf4j  // logger 설정
 @RestController
 @RequestMapping("/api")
 public class UserController {
-    private final UserRepository userRepository;
+    
     private final UserService userService;
 
-    public UserController(UserService userService, UserRepository userRepository) {
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.userRepository = userRepository;
     }
 
     // private List<User> users = new ArrayList<>(List.of(
@@ -40,24 +41,33 @@ public class UserController {
     // GET: 전체 사용자 가져오기
     @GetMapping("/users")
     public List<User> getAllUsers() {
+        log.info("getAllUsers called");
+        log.debug("getAllUsers called");
         return userService.getAllUsers();
     }
 
     // GET: @RequestParam으로 특정 사용자 가져오기
+    @Metrics
     @GetMapping("/users/{id}")
-    public User getUserByEmail(@RequestParam("id") long id) {
+    public User getUserById(@PathVariable("id") long id) {
+        log.info("getUserById called");
+        log.debug("getUserById called with id: {}", id);
         return userService.getUserById(id).orElse(null);
     }
     
     // POST: 사용자 추가
     @PostMapping("/users")
     public User createUser(@RequestBody User user) {
+        log.info("createUser called");
+        log.debug("createUser called with user: {}", user);
         return userService.createUser(user);
     }
 
     // DELETE: 사용자 삭제
     @DeleteMapping("/users/{id}")
-    public void deletUser(@RequestBody Long id) {
+    public void deleteUser(@PathVariable("id") Long id) {
+        log.info("deleteUser called");
+        log.debug("deleteUser called with id: {}", id);
         userService.deleteUser(id);
     }
 
@@ -67,9 +77,8 @@ public class UserController {
         @PathVariable("id") Long id,
         @RequestBody User updatedUser
     ) {
-        User user = userService.getUserById(id).orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
-        user.setName(updatedUser.getName());
-        user.setEmail(updatedUser.getEmail());
-        return userRepository.save(user);
+        log.info("updateUser called");
+        log.info("updateUser called with id: {}, user: {}", id, updatedUser);
+        return userService.updateUser(id, updatedUser).orElse(null);
     }
 }

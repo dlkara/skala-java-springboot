@@ -1,8 +1,11 @@
 package com.sk.skala.myapp.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import com.sk.skala.myapp.repository.UserRepository;
+
+import jakarta.validation.Valid;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,6 +13,7 @@ import java.util.Optional;
 import com.sk.skala.myapp.domain.User;
 
 @Service
+@Validated
 public class UserService {
     private final UserRepository userRepository;
 
@@ -28,7 +32,7 @@ public class UserService {
     }
 
     // 사용자 추가
-    public User createUser(User user) {
+    public User createUser(@Valid User user) {
         return userRepository.save(user);
     }
 
@@ -38,7 +42,7 @@ public class UserService {
     }
 
     // 사용자 정보 수정
-    public Optional<User> updateUser(long id, User updatedUser) {
+    public Optional<User> updateUser(@Valid long id, User updatedUser) {
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isEmpty()) {
             return Optional.empty();
