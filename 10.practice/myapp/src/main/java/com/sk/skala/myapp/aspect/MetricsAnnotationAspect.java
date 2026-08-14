@@ -1,5 +1,6 @@
 package com.sk.skala.myapp.aspect;
 
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 import org.aspectj.lang.JoinPoint;
@@ -18,5 +19,24 @@ public class MetricsAnnotationAspect {
     public void logControllerStart(JoinPoint joinPoint) {}
 
     @Around("metricsAnnotation()")
-    public Object measureExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {}
+    public Object measureExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
+        long startTime = System.currentTimeMillis();
+
+        try {
+            // 실제 Target 메소드 실행
+            return joinPoint.proceed();
+
+        } finally {
+            long endTime = System.currentTimeMillis();
+            long executionTime = endTime - startTime;
+
+            String time = LocalTime.now().format(TIME_FORMATTER);
+
+            System.out.println(
+                    "[" + time + "] END: "
+                    + joinPoint.getSignature().toShortString()
+                    + " / " + executionTime + "ms"
+            );
+        }
+    }
 }

@@ -1,0 +1,16 @@
+logging:
+    level:
+        '[com.sk.skala.myapp.controller]': DEBUG
+        '[com.sk.skala.myapp.service]': DEBUG
+
+server:
+  port: 8080
+
+developer:
+  owner:
+    name: yona
+    role: kubernetes
+    level: high
+  team:
+    position: "5th floor"
+    detail: "class 5"

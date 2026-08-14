@@ -1,6 +1,7 @@
 package com.sk.skala.myapp.service;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import com.sk.skala.myapp.repository.UserRepository;
@@ -14,6 +15,7 @@ import com.sk.skala.myapp.domain.User;
 
 @Service
 @Validated
+@Transactional(readOnly = true)
 public class UserService {
     private final UserRepository userRepository;
 
@@ -32,16 +34,13 @@ public class UserService {
     }
 
     // 사용자 추가
+    @Transactional
     public User createUser(@Valid User user) {
         return userRepository.save(user);
     }
 
-    // 사용자 삭제
-    public void deleteUser(long id) {
-        userRepository.deleteById(id);
-    }
-
     // 사용자 정보 수정
+    @Transactional
     public Optional<User> updateUser(@Valid long id, User updatedUser) {
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isEmpty()) {
@@ -52,5 +51,11 @@ public class UserService {
         user.setEmail(updatedUser.getEmail());
         User savedUser = userRepository.save(user);
         return Optional.of(savedUser);
+    }
+
+    // 사용자 삭제
+    @Transactional
+    public void deleteUser(long id) {
+        userRepository.deleteById(id);
     }
 }

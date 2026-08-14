@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
  * 시작 시각, 종료 시각, 총 소요 시간을 로그로 출력한다.
  */
 @Slf4j
-// @Configuration
+@Configuration
 public class UserServiceConfig {
 
     private static final DateTimeFormatter TIME_FORMATTER =
